@@ -19,11 +19,9 @@ On a cloud provider, a Service of type `LoadBalancer` gets an external IP automa
 
 ## Steps
 
-**1. Install MetalLB v0.15.2.** The `memberlist` Secret secures the traffic between the controller and the speakers; creating it first avoids `CrashLoopBackOff` at start-up.
+**1. Install MetalLB v0.15.2.** The manifest creates the `metallb-system` namespace; the controller then generates the `memberlist` Secret that encrypts traffic between speakers.
 
 ```bash
-kubectl create ns metallb-system
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 kubectl get pods -n metallb-system -w   # controller and speakers Running, 0 restarts
 ```
@@ -59,3 +57,5 @@ kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/conf
 ```
 
 Deleting the manifest also removes the `metallb-system` namespace and the `memberlist` Secret.
+
+A scripted version of this stage, with an automatic test, is in [metallb-lab](https://github.com/raslenraslen/metallb-lab).
