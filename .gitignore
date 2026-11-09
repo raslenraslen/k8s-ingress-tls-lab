@@ -1,4 +1,9 @@
-# Ignore Terraform files for cluster-AKS-terraform
-/cluster-AKS-terraform/terraform.tfstate
-/cluster-AKS-terraform/.terraform/
-/cluster-AKS-terraform/.terraform.lock.hcl
+# Terraform state and providers (05-aks-ingress/terraform)
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Self-signed certificates generated in 04-self-signed-tls
+*.key
+*.crt

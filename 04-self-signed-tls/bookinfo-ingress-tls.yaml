@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookinfo-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - bookinfo.kube.local     # domain the certificate is issued for
+      secretName: bookinfo-tls    # TLS Secret created from the certificate
+  rules:
+    - http:
+        paths:
+          - path: /productpage
+            pathType: Prefix
+            backend:
+              service:
+                name: productpage
+                port:
+                  number: 9080

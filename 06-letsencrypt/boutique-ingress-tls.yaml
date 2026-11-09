@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: boutique-ingress
+  namespace: test
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod      # cert-manager requests the certificate
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true" # HTTP is redirected to HTTPS
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - rasleneboutique.duckdns.org   # replace with your domain
+      secretName: boutique-tls-prod     # cert-manager stores the certificate here
+  rules:
+    - host: rasleneboutique.duckdns.org # replace with your domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: online-boutique-frontend-service
+                port:
+                  number: 80

@@ -1,1 +1,0 @@
-kubeadm join 192.168.216.141:6443 --token rcjcwf.ot6srq02s4kflnnt --discovery-token-ca-cert-hash sha256:e3594b414f1803a95a38ea21085bfa1c8802131dcd131bcaf914da602a372f47 
