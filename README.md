@@ -28,17 +28,31 @@ Each stage builds on the previous one, so follow them in order. The Azure stages
 
 ```mermaid
 flowchart LR
-    subgraph Local["Local cluster (stages 1 to 4)"]
+    subgraph Local["Local cluster · stages 1 to 4"]
+        direction LR
         B1["Browser"] -->|"bookinfo.kube.local<br/>(hosts file)"| M["MetalLB IP"]
         M --> N1["NGINX Ingress<br/>self-signed TLS"]
         N1 --> P["Bookinfo<br/>productpage"]
     end
-    subgraph Azure["Azure AKS (stages 5 and 6)"]
+    subgraph Azure["Azure AKS · stages 5 and 6"]
+        direction LR
         B2["Browser"] -->|"rasleneboutique.duckdns.org<br/>(DuckDNS)"| L["Azure public IP"]
         L --> N2["NGINX Ingress<br/>Let's Encrypt TLS"]
         N2 --> F["Online Boutique<br/>frontend"]
         C["cert-manager"] -.->|"issues and renews"| N2
     end
+
+    classDef client fill:#8957e5,stroke:#a371f7,color:#ffffff,stroke-width:2px
+    classDef network fill:#1f6feb,stroke:#58a6ff,color:#ffffff,stroke-width:2px
+    classDef controller fill:#238636,stroke:#3fb950,color:#ffffff,stroke-width:2px
+    classDef app fill:#bd561d,stroke:#f0883e,color:#ffffff,stroke-width:2px
+    class B1,B2 client
+    class M,L network
+    class N1,N2,C controller
+    class P,F app
+    style Local fill:#1f6feb14,stroke:#1f6feb,stroke-width:2px
+    style Azure fill:#0078d414,stroke:#0078d4,stroke-width:2px
+    linkStyle default stroke:#8b949e,stroke-width:2px
 ```
 
 ## What each stage shows
